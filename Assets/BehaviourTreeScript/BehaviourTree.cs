@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Toolbars;
 using UnityEngine;
 
 public class BehaviourTree : Node
@@ -24,6 +25,13 @@ public class BehaviourTree : Node
         public int level;
         public Node node;
     }
+
+
+    public override Status Process()
+    {
+        return children[currentChild].Process();  
+    }
+
 
     public void PrintTree()
     {
