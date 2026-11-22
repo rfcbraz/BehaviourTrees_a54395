@@ -9,7 +9,8 @@ public class RobberBehaviour : MonoBehaviour
    public GameObject diamond;
    public GameObject van;
     public GameObject backdoor;
-    
+    public GameObject frontdoor;
+
    NavMeshAgent agent;
 
    public enum ActionState {IDLE, WORKING};
@@ -25,11 +26,16 @@ public class RobberBehaviour : MonoBehaviour
         Sequence steal = new Sequence("Steal Nothing");
         Leaf goToDiamond = new Leaf("Go To Diamond", GoToDiamond);
         Leaf goToBackDoor = new Leaf("Go To Backdoor", GoToBackDoor);
+        Leaf goToFrontDoor = new Leaf("Go To Frontdoor", GoToFrontDoor);
         Leaf goToVan = new Leaf("Go To Van", GoToVan);
+        Selector opendoor = new Selector("Open Door");
 
-        steal.AddChild(goToBackDoor);
+        opendoor.AddChild(goToBackDoor);
+        opendoor.AddChild(goToFrontDoor);
+
+        steal.AddChild(opendoor);
         steal.AddChild(goToDiamond);
-        steal.AddChild(goToBackDoor);
+        //steal.AddChild(goToBackDoor);
         steal.AddChild(goToVan);
         tree.AddChild(steal);
 
@@ -47,6 +53,12 @@ public class RobberBehaviour : MonoBehaviour
      public Node.Status GoToBackDoor()
     {
         return GoToLocation(backdoor.transform.position);
+
+    }
+
+     public Node.Status GoToFrontDoor()
+    {
+        return GoToLocation(frontdoor.transform.position);
 
     }
     
